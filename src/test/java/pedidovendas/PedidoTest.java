@@ -3,6 +3,11 @@ package pedidovendas;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import desconto.CalculadoraDescontoPrimeiraFaixa;
+import desconto.CalculadoraDescontoSegundaFaixa;
+import desconto.CalculadoraDescontoTerceiraFaixa;
+import desconto.CalculadoraFaixaDesconto;
+import desconto.CalculadoraSemDesconto;
 
 
 
@@ -13,13 +18,17 @@ public class PedidoTest {
 
 	@BeforeEach
 	void setUp() {
-		pedido = new Pedido();
+		CalculadoraFaixaDesconto calculadoraFaixaDesconto = 
+				new CalculadoraDescontoTerceiraFaixa(
+						new CalculadoraDescontoSegundaFaixa(
+								new CalculadoraDescontoPrimeiraFaixa(
+										new CalculadoraSemDesconto(null))));
+		pedido = new Pedido(calculadoraFaixaDesconto);
 	}
 
 
 	@Test
 	void deveAdicionarUmItemNoPedido() {
-		Pedido pedido = new Pedido();
 		pedido.adicionarItem(new ItemPedido("Sabonete", 3.00, 10));
 	}
 
