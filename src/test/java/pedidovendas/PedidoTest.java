@@ -1,6 +1,7 @@
 package pedidovendas;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import desconto.CalculadoraDescontoPrimeiraFaixa;
@@ -36,8 +37,9 @@ public class PedidoTest {
 
 	protected void assertResumoPedido(double valorTotalEsperado, double valorDescontoEsperado) {
 		ResumoPedido resumoPedido = pedidoBuilder.construir().resumo();
-		assertEquals(valorTotalEsperado, resumoPedido.getValorTotal());
-		assertEquals(valorDescontoEsperado, resumoPedido.getValorDesconto());
+		//assertEquals(valorTotalEsperado, resumoPedido.getValorTotal());
+		//assertEquals(valorDescontoEsperado, resumoPedido.getValorDesconto());
+		assertEquals(new ResumoPedido(valorTotalEsperado, valorDescontoEsperado), resumoPedido);
 	}
 	
 	
@@ -78,6 +80,12 @@ public class PedidoTest {
 				.comItem(15.00, 30)
 				.comItem(15.00, 30);
 		assertResumoPedido(1200.00, 96.00);
+	}
+	
+	@Test
+	void deveLancarExceceoParaQuantidadeItemPedidoNegativo() {
+		Assertions.assertThrows(QuantidadeItemInvalidaException.class,
+				() -> pedidoBuilder.comItem(1.00, -10));
 	}
 	
 	

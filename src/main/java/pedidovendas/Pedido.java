@@ -19,7 +19,15 @@ public class Pedido {
 
 
 	public void adicionarItem(ItemPedido itemPedido) {
+		validarQuantidadeItemPedido(itemPedido);
 		itensPedido.add(itemPedido);
+	}
+
+
+	protected void validarQuantidadeItemPedido(ItemPedido itemPedido) {
+		if (itemPedido.getQuantidade() < 0) {
+            throw new QuantidadeItemInvalidaException();
+        }
 	}
 
 
